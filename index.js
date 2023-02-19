@@ -14,7 +14,7 @@ async function getnearme(x,y) {
   var findResult = "No documents where found";
   try {
     findResult = await client.db("DATA").collection("FINAL").find(
-      {"jordstykker.centroide.geometri": {"$within": {"$center": [[parseFloat(x), parseFloat(y)], 150]}}}
+      {"jordstykker.centroide.geometri": {"$within": {"$center": [[parseFloat(x), parseFloat(y)], 100]}}}
     );
   } finally {
     return(findResult);
@@ -28,7 +28,7 @@ app.get("/api", async function(req, res) {
   await getnearmeRes.forEach(element => {
     nearmeArr.push(element);
   });
-  console.log("okayyyy");
+  console.log("Returned",nearmeArr.length,"documents at x:",req.query.x,"y:",req.query.y);
   res.send(nearmeArr);
 });
 
